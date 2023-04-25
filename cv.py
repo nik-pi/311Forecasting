@@ -84,7 +84,7 @@ def objective_rf(trial):
 
 
 def optimize_xgb(objective_xgb):
-    storage_url = "sqlite:///example.db"
+    storage_url = "sqlite:///hyperparameter_opt.db"
     study_name = "xgb_optimization"
 
     study = optuna.create_study(storage=storage_url, study_name=study_name, direction='minimize', load_if_exists=True)
@@ -92,7 +92,7 @@ def optimize_xgb(objective_xgb):
     print(study.best_params)
 
 def optimize_rf(objective_rf):
-    storage_url = "sqlite:///example.db"
+    storage_url = "sqlite:///hyperparameter_opt.db"
     study_name = "rf_optimization_new"
 
     study = optuna.create_study(storage=storage_url, study_name=study_name, direction='minimize', load_if_exists=True)
