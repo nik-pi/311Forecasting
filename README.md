@@ -1,6 +1,5 @@
 # Forecasting NYC 311 Calls
+## Overview
+The model predicts 311 calls for New York City for 30 days in advance. The data are provided daily from the city's Open Data Program.
 
-## Model Overview
-1. The predictions are run for 30 days in advance
-2. After 30 days, new predictions are made with real data
-3. Old predictions are maintained for evaluation
+The data are then presented in a dashboard using Streamlit. The dashboard can be [found here](https://311forecasting.streamlit.app/). 
