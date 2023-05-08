@@ -44,6 +44,7 @@ def predict(
         pred_date = train.index.max() + pd.Timedelta(days=1)
         train.loc[pred_date, 'Num'] = pred
 
+    train['Num'] = train['Num'].astype(int)
     preds = train['Num'].tail(n_days)
 
     return preds
