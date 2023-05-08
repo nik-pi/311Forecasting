@@ -142,7 +142,17 @@ def optimize_rf(objective_rf):
 def get_best_params(
         storage_url: str = CV.STORAGE_URL.value, 
         studies: list[str] = [CV.LGBM_STUDY.value, CV.XGB_STUDY.value, CV.RF_STUDY.value],
-        ):
+        ) -> dict:
+    """Gets the information on the best performing model.
+
+    Args:
+        storage_url (str, optional): Where the CV data are stored. Defaults to CV.STORAGE_URL.value.
+        studies (list[str], optional): The different studies ran in CV. Defaults to [CV.LGBM_STUDY.value, CV.XGB_STUDY.value, CV.RF_STUDY.value].
+
+    Returns:
+        dict: A dictionary containing metadata on different studies.
+    """
+    
     params = list()
     for study in studies:
         data = dict()
@@ -152,8 +162,8 @@ def get_best_params(
         data['parameters'] = info.best_params
 
         params.append(data)
-        
-    return params
+
+    return min(params, key=lambda x: x['score'])
 
 if __name__ == '__main__':
     params = get_best_params()
