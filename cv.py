@@ -1,12 +1,19 @@
 import model
 import pandas as pd
 import optuna
+from enum import Enum
 
 from xgboost import XGBRegressor
 from sklearn.ensemble import RandomForestRegressor
 from lightgbm import LGBMRegressor
 
 from sklearn.metrics import mean_squared_error
+
+class CV(Enum):
+    RF_STUDY = 'rf_optimization_new'
+    XGB_STUDY = 'xgb_optimization'
+    LGBM_STUDY = 'lgbm_optimization'
+    STORAGE_URL = 'sqlite:///hyperparameter_opt.db'
 
 def predict_test(
         n_days: int = 30, 
@@ -108,24 +115,24 @@ def objective_rf(trial):
 
 
 def optimize_xgb(objective_xgb):
-    storage_url = "sqlite:///hyperparameter_opt.db"
-    study_name = "xgb_optimization"
+    storage_url = CV.STORAGE_URL.value
+    study_name = CV.XGB_STUDY.value
 
     study = optuna.create_study(storage=storage_url, study_name=study_name, direction='minimize', load_if_exists=True)
     # study.optimize(objective_xgb, n_trials=100)
     print(study.best_params)
 
 def optimize_lgbm(objective_lgbm):
-    storage_url = "sqlite:///hyperparameter_opt.db"
-    study_name = "lgbm_optimization"
+    storage_url = CV.STORAGE_URL.value
+    study_name = CV.LGBM_STUDY.value
 
     study = optuna.create_study(storage=storage_url, study_name=study_name, direction='minimize', load_if_exists=True)
     study.optimize(objective_lgbm, n_trials=100)
     # print(study.best_params)
 
 def optimize_rf(objective_rf):
-    storage_url = "sqlite:///hyperparameter_opt.db"
-    study_name = "rf_optimization_new"
+    storage_url = CV.STORAGE_URL.value
+    study_name = CV.RF_STUDY.value
 
     study = optuna.create_study(storage=storage_url, study_name=study_name, direction='minimize', load_if_exists=True)
     print(study.get_trials())
@@ -147,8 +154,8 @@ def get_best_params(storage_url: str, studies: list[str]):
 
 if __name__ == '__main__':
     params = get_best_params(
-        storage_url="sqlite:///hyperparameter_opt.db",
-        studies=['rf_optimization_new', 'xgb_optimization', 'lgbm_optimization']
+        storage_url=CV.STORAGE_URL.value,
+        studies=[CV.LGBM_STUDY.value, CV.XGB_STUDY.value, CV.RF_STUDY.value]
         )
     
     print(params)
