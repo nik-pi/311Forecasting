@@ -19,22 +19,16 @@ def get_regressor(
         return RandomForestRegressor
 
 if __name__ == '__main__':
-    # Get info on best model
-    info = get_best_model()
-    regressor = get_regressor(info=info)
-    params = info.get('parameters')
-
     # Run Predictions
     preds = model.predict(
         days_back=0,
         training=False,
-        regressor=regressor,
-        params=params,
+        regressor=RandomForestRegressor,
+        params={'criterion': 'poisson', 'max_depth': 2, 'max_features': 'log2', 'min_samples_leaf': 1, 'min_samples_split': 2, 'n_estimators': 95},
         n_days=30
     ).reset_index()
 
     # Save predictions
     df = pd.read_csv('model/preds.csv')
     preds = pd.concat([df, preds])
-    df.to_csv('model/preds.csv', index=False)
-    print(df)
+    preds.to_csv('model/preds.csv', index=False)
