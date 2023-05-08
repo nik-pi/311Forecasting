@@ -65,6 +65,11 @@ df = combine_data()
 fig_over_time = create_over_time_chart(df=df)
 fig_error_over_time = create_error_over_time_chart(df=df)
 
+st.set_page_config(
+    page_title="311 Forecasting",
+    page_icon="📈",
+)
+
 st.title('Forecasting 311 Data')
 st.markdown("""
 These graphs show forecasted values of 311 Volumes in New York City. Data are provided daily by the city via their [Open Data Program](https://data.cityofnewyork.us/Social-Services/311-Service-Requests-from-2010-to-Present/erm2-nwe9).
