@@ -139,7 +139,7 @@ def optimize_rf(objective_rf):
     print(study.best_params)
     study.optimize(objective_rf, n_trials=100)
 
-def get_best_params(
+def get_best_model(
         storage_url: str = CV.STORAGE_URL.value, 
         studies: list[str] = [CV.LGBM_STUDY.value, CV.XGB_STUDY.value, CV.RF_STUDY.value],
         ) -> dict:
@@ -166,5 +166,5 @@ def get_best_params(
     return min(params, key=lambda x: x['score'])
 
 if __name__ == '__main__':
-    params = get_best_params()
+    params = get_best_model()
     print(params)
