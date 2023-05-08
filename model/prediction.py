@@ -29,7 +29,7 @@ def predict(
     if training:
         train = df.iloc[:-n_days].copy()
     else:
-        df.copy()
+        train = df.copy()
     
     for _ in tqdm(range(n_days)):
         features = CallData(train)
@@ -45,7 +45,7 @@ def predict(
         train.loc[pred_date, 'Num'] = pred
 
     train['Num'] = train['Num'].astype(int)
-    preds = train['Num'].tail(n_days)
+    preds = train[['Num']].tail(n_days)
 
     return preds
 
