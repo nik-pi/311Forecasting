@@ -37,7 +37,6 @@ def predict_test(
     )
 
 def objective_xgb(trial):
-    # booster = trial.suggest_categorical('booster', ('gbtree', 'gblinear'))
     eta = trial.suggest_float('eta', 0.001, 1.0)
     subsample = trial.suggest_float('subsample', 0.001, 1.0)
     gamma = trial.suggest_float('gamma', 1e-5, 1_000_000, log=True)
@@ -53,10 +52,35 @@ def objective_xgb(trial):
         'max_depth': max_depth
     }
 
-    vals = predict_test(days_back=1, params=params)
-
+    vals = predict_test(days_back=30, params=params)
     mse = mean_squared_error(vals['Num_pred'], vals['Num_test'])
 
+    return mse
+
+def objective_lgbm(trial):
+    
+    num_leaves = trial.suggest_int('num_leaves', 2, 256)
+    learning_rate = trial.suggest_loguniform('learning_rate', 0.001, 0.1)
+    feature_fraction = trial.suggest_uniform('feature_fraction', 0.1, 1.0)
+    bagging_fraction = trial.suggest_uniform('bagging_fraction', 0.1, 1.0)
+    bagging_freq = trial.suggest_int('bagging_freq', 1, 10)
+    min_child_samples = trial.suggest_int('min_child_samples', 5, 100)
+    reg_alpha = trial.suggest_loguniform('reg_alpha', 1e-8, 10.0)
+    reg_lambda = trial.suggest_loguniform('reg_lambda', 1e-8, 10.0)
+    
+    params = {
+        'num_leaves': num_leaves,
+        'learning_rate': learning_rate,
+        'feature_fraction': feature_fraction,
+        'bagging_fraction': bagging_fraction,
+        'bagging_freq': bagging_freq,
+        'min_child_samples': min_child_samples,
+        'reg_alpha': reg_alpha,
+        'reg_lambda': reg_lambda
+    }
+
+    vals = predict_test(days_back=30, params=params, regressor=LGBMRegressor)
+    mse = mean_squared_error(vals['Num_pred'], vals['Num_test'])
     return mse
 
 def objective_rf(trial):
@@ -76,7 +100,7 @@ def objective_rf(trial):
         'criterion': criterion
     }
 
-    vals = predict_test(days_back=1, params=params, regressor=RandomForestRegressor)
+    vals = predict_test(days_back=30, params=params, regressor=RandomForestRegressor)
 
     mse = mean_squared_error(vals['Num_pred'], vals['Num_test'])
 
@@ -91,6 +115,14 @@ def optimize_xgb(objective_xgb):
     # study.optimize(objective_xgb, n_trials=100)
     print(study.best_params)
 
+def optimize_lgbm(objective_lgbm):
+    storage_url = "sqlite:///hyperparameter_opt.db"
+    study_name = "lgbm_optimization"
+
+    study = optuna.create_study(storage=storage_url, study_name=study_name, direction='minimize', load_if_exists=True)
+    study.optimize(objective_lgbm, n_trials=100)
+    # print(study.best_params)
+
 def optimize_rf(objective_rf):
     storage_url = "sqlite:///hyperparameter_opt.db"
     study_name = "rf_optimization_new"
@@ -98,10 +130,25 @@ def optimize_rf(objective_rf):
     study = optuna.create_study(storage=storage_url, study_name=study_name, direction='minimize', load_if_exists=True)
     print(study.get_trials())
     print(study.best_params)
-    # study.optimize(objective_rf, n_trials=100)
-    # import optuna.visualization as vis
+    study.optimize(objective_rf, n_trials=100)
 
-    # optimization_history_plot = vis.plot_optimization_history(study)
-    # optimization_history_plot.show()
+def get_best_params(storage_url: str, studies: list[str]):
+    params = list()
+    for study in studies:
+        data = dict()
+        info = optuna.load_study(storage=storage_url, study_name=study)
+        data['study'] = study
+        data['score'] = info.best_value
+        data['parameters'] = info.best_params
+
+        params.append(data)
+        
+    return params
+
 if __name__ == '__main__':
-    optimize_rf(objective_rf)
+    params = get_best_params(
+        storage_url="sqlite:///hyperparameter_opt.db",
+        studies=['rf_optimization_new', 'xgb_optimization', 'lgbm_optimization']
+        )
+    
+    print(params)
