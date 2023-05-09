@@ -3,7 +3,7 @@ import pandas as pd
 from dotenv import load_dotenv
 import os
 
-load_dotenv()
+# load_dotenv()
 APP_TOKEN = os.getenv('APP_TOKEN')
 
 def _get_max_date() -> str:
