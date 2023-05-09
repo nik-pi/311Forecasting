@@ -25,7 +25,6 @@ def _construct_query() -> str:
 def _filter_bad_data(
         data: list[dict]
         ) -> list[dict]:
-    
     if int(data[-1]['Num']) < 3_000:
         print(data)
         data.pop()
@@ -35,7 +34,8 @@ def _filter_bad_data(
 def update_data() -> None:
     query = _construct_query()
     resp = requests.get(query).json()
-    resp = _filter_bad_data(resp)
+    if resp:
+        resp = _filter_bad_data(resp)
     df = pd.DataFrame(resp)
     df['Date'] = pd.to_datetime(df['Date'])
     df['Date'] = df['Date'].dt.strftime('%Y-%m-%d')
