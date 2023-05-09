@@ -27,6 +27,7 @@ def _filter_bad_data(
         ) -> list[dict]:
     
     if int(data[-1]['Num']) < 3_000:
+        print(data)
         data.pop()
 
     return data
