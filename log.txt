@@ -8,3 +8,8 @@
   "error" : true,
   "message" : "Invalid app_token specified"
 }
+{
+  "code" : "not_found",
+  "error" : true,
+  "message" : "No service found for this URL."
+}
