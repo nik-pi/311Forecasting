@@ -18,7 +18,7 @@ def _construct_query() -> str:
     query_select = '&$SELECT=date_trunc_ymd(created_date) as Date, count(*) as Num&$GROUP=date_trunc_ymd(created_date)'
     query_where = f'&$WHERE=created_date >= "{_get_max_date()}"'
     query_order = '&$ORDER=date_trunc_ymd(created_date)'
-    query = f'{url}{query_app_token}{query_select}{query_where}{query_order}'
+    query = f'{url}{query_select}{query_where}{query_order}'
     
     return query
 
