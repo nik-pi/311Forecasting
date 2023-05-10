@@ -15,6 +15,11 @@ def mermaid(code: str) -> None:
         """
     )
 
+st.set_page_config(
+    page_title="Model Description",
+    page_icon="👨🏻‍💻",
+)
+
 st.title('Model Description')
 st.header('Data Updating')
 st.markdown("""
