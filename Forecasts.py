@@ -5,16 +5,17 @@ import plotly.graph_objs as go
 def combine_data() -> pd.DataFrame:
     df_test = pd.read_csv(
         filepath_or_buffer='model/vals.csv',
-        parse_dates=['Date']
+        index_col='Date'
     ).rename(columns={'Num': 'Actual'})
     df_test.index = pd.to_datetime(df_test.index)
 
     df_preds = pd.read_csv(
-        filepath_or_buffer='model/preds.csv',
-        index_col='Date',
-    ).rename(columns={'Num': 'Predicted'})
+        filepath_or_buffer='model/preds.csv'
+        )
+    df_preds = df_preds.rename(columns={'Num': 'Predicted'})
     df_preds['Predicted'] = df_preds['Predicted'].astype('int')
-    df_preds.index = pd.to_datetime(df_preds.index)
+    df_preds['Date'] = pd.to_datetime(df_preds['Date'])
+    df_preds = df_preds.set_index('Date')
 
     df = pd.merge(
         left=df_test,
@@ -84,4 +85,3 @@ You can check out the entire source code on my [Github page](https://github.com/
 
 st.plotly_chart(fig_over_time, config={'displayModeBar': False})
 st.plotly_chart(fig_error_over_time, config={'displayModeBar': False})
-st.dataframe(df)
