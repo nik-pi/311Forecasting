@@ -13,3 +13,13 @@
   "error" : true,
   "message" : "No service found for this URL."
 }
+{
+  "code" : "not_found",
+  "error" : true,
+  "message" : "No service found for this URL."
+}
+{
+  "code" : "not_found",
+  "error" : true,
+  "message" : "No service found for this URL."
+}
