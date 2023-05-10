@@ -14,7 +14,7 @@ def combine_data() -> pd.DataFrame:
         index_col='Date',
     ).rename(columns={'Num': 'Predicted'})
     df_preds['Predicted'] = df_preds['Predicted'].astype('int')
-    df_test.index = pd.to_datetime(df_test.index)
+    df_preds.index = pd.to_datetime(df_preds.index)
 
     df = pd.merge(
         left=df_test,
