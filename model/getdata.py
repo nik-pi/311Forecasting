@@ -33,16 +33,18 @@ def _filter_bad_data(
 
 def update_data() -> None:
     query = _construct_query()
-    resp = requests.get(query).json()
-    if resp:
-        resp = _filter_bad_data(resp)
-    df = pd.DataFrame(resp)
-    df['Date'] = pd.to_datetime(df['Date'])
-    df['Date'] = df['Date'].dt.strftime('%Y-%m-%d')
-    old = pd.read_csv('model/vals.csv')
-    df = pd.concat([old, df], ignore_index=True)
-    df = df.drop_duplicates(subset=['Date'], keep='first')
-    df.to_csv('model/vals.csv', index=False)
+    resp = requests.get(query) 
+    with open('log.txt', 'w') as file:
+        file.write(resp)
+    # if resp:
+    #     resp = _filter_bad_data(resp)
+    # df = pd.DataFrame(resp)
+    # df['Date'] = pd.to_datetime(df['Date'])
+    # df['Date'] = df['Date'].dt.strftime('%Y-%m-%d')
+    # old = pd.read_csv('model/vals.csv')
+    # df = pd.concat([old, df], ignore_index=True)
+    # df = df.drop_duplicates(subset=['Date'], keep='first')
+    # df.to_csv('model/vals.csv', index=False)
 
 
 if __name__ == "__main__":

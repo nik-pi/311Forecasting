@@ -1,8 +1,9 @@
 name: run app_update_data.py
 
 on:
-  schedule:
-    - cron: '0 1 * * *'
+  [workflow_dispatch]
+  # schedule:
+  #   - cron: '0 1 * * *'
 
 jobs:
   build:
