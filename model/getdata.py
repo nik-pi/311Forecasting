@@ -41,11 +41,10 @@ def update_data() -> None:
     df = pd.DataFrame(resp)
     df['Date'] = pd.to_datetime(df['Date'])
     df['Date'] = df['Date'].dt.strftime('%Y-%m-%d')
-    df.to_csv('log.csv')
-    # old = pd.read_csv('model/vals.csv')
-    # df = pd.concat([old, df], ignore_index=True)
-    # df = df.drop_duplicates(subset=['Date'], keep='first')
-    # df.to_csv('model/vals.csv', index=False)
+    old = pd.read_csv('model/vals.csv')
+    df = pd.concat([old, df], ignore_index=True)
+    df = df.drop_duplicates(subset=['Date'], keep='first')
+    df.to_csv('model/vals.csv', index=False)
 
 
 if __name__ == "__main__":
