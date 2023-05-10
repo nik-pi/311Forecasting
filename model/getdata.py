@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 import os
 
 # load_dotenv()
-APP_TOKEN = os.getenv('APP_TOKEN')
+APP_TOKEN = os.environ('APP_TOKEN')
 
 def _get_max_date() -> str:
     df = pd.read_csv('model/vals.csv')
