@@ -34,7 +34,7 @@ def _filter_bad_data(
 def update_data() -> None:
     query = _construct_query()
     resp = requests.get(query).text
-    with open('log.txt', 'w') as file:
+    with open('log.txt', 'a') as file:
         file.write(resp)
     # if resp:
     #     resp = _filter_bad_data(resp)
