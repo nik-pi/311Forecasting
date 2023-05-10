@@ -5,12 +5,14 @@ import plotly.graph_objs as go
 def combine_data() -> pd.DataFrame:
     df_test = pd.read_csv(
         filepath_or_buffer='model/vals.csv',
-        index_col='Date'
+        index_col='Date',
+        parse_dates=['Date']
     ).rename(columns={'Num': 'Actual'})
 
     df_preds = pd.read_csv(
         filepath_or_buffer='model/preds.csv',
-        index_col='Date'
+        parse_dates=['Date'],
+        index_col='Date',
     ).rename(columns={'Num': 'Predicted'})
     df_preds['Predicted'] = df_preds['Predicted'].astype('int')
 
