@@ -84,3 +84,4 @@ You can check out the entire source code on my [Github page](https://github.com/
 
 st.plotly_chart(fig_over_time, config={'displayModeBar': False})
 st.plotly_chart(fig_error_over_time, config={'displayModeBar': False})
+st.dataframe(df)
