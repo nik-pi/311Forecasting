@@ -22,10 +22,10 @@ if __name__ == '__main__':
     # Run Predictions
     preds = model.predict(
         days_back=0,
-        training=False,
+        training=True,
         regressor=RandomForestRegressor,
         params={'criterion': 'poisson', 'max_depth': 2, 'max_features': 'log2', 'min_samples_leaf': 1, 'min_samples_split': 2, 'n_estimators': 95},
-        n_days=30
+        n_days=14
     ).reset_index()
 
     # Save predictions
