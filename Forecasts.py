@@ -68,18 +68,22 @@ df = combine_data()
 fig_over_time = create_over_time_chart(df=df)
 fig_error_over_time = create_error_over_time_chart(df=df)
 
+mape = df['% Difference'].abs().mean()
+
 st.set_page_config(
     page_title="311 Forecasting",
     page_icon="📈",
 )
 
 st.title('Forecasting 311 Data')
-st.markdown("""
+st.markdown(f"""
 These graphs show forecasted values of 311 Volumes in New York City. Data are provided daily by the city via their [Open Data Program](https://data.cityofnewyork.us/Social-Services/311-Service-Requests-from-2010-to-Present/erm2-nwe9).
 
 The data are refreshed daily and new forecasted are created monthly for the duration of the month. 
 
 You can check out the entire source code on my [Github page](https://github.com/nik-pi/311Forecasting). 
+
+The mean absolute percentage error (MAPE) is {mape:.1%}.
 
 """)
 

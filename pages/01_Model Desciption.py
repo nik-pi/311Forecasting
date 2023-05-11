@@ -26,7 +26,7 @@ st.markdown("""
 The 311 Service Request Forecasting Model is a workflow that utilizes Github actions and Python scripts to predict future 311 service requests in New York City. The workflow consists of the following steps:
 1. Data is pulled from the 311 Open Data Dataset on the New York City website via the API. This is done using a Python script triggered by a Github action.
 2. The new data is saved to Github into a CSV file located in the `data` directory. This ensures that we have a record of all the data we've pulled and can use it for future analysis.
-3. Every 30 days, Github actions trigger a forecasting script which runs a SKlearn random forest regressor to recursively forecast data. This script uses the data in the `data` directory to generate forecasts.
+3. Every 7 days, Github actions trigger a forecasting script which runs a SKlearn random forest regressor to recursively forecast data. This script uses the data in the `data` directory to generate forecasts.
 4. The forecasts and accuracy are displayed on a streamlit dashboard. This dashboard is easy to use and provides a great visual representation of the data.
 
 This workflow is designed to be easy to use and accurate. It provides a great tool for anyone interested in predicting 311 service requests in New York City. The workflow can be customized to fit specific needs and can be modified to include additional data sources or forecasting methods.
