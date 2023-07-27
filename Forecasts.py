@@ -47,7 +47,7 @@ def create_over_time_chart(df:pd.DataFrame) -> go.Figure:
 
 def create_error_over_time_chart(df:pd.DataFrame) -> go.Figure:
     fig = go.Figure()
-    df['Error'] = (df['Actual'] - df['Predicted']) / df['Actual']
+    df['Error'] = abs(df['Actual'] - df['Predicted']) / df['Actual']
     fig.add_trace(go.Scatter(x=df['Date'], y=df['Error'], name='Error'))
     fig.update_traces(mode="markers+lines", hovertemplate=None)
     fig.update_layout(hovermode="x unified")
