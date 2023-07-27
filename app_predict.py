@@ -31,4 +31,5 @@ if __name__ == '__main__':
     # Save predictions
     df = pd.read_csv('model/preds.csv')
     preds = pd.concat([df, preds])
+    preds = preds.drop_duplicates(subset=['Date'], keep='first')
     preds.to_csv('model/preds.csv', index=False)
