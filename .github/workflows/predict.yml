@@ -1,8 +1,10 @@
 name: run app_predict.py
 
-on:
-  schedule:
-    - cron: '0 2 * * 4'
+on: workflow_dispatch
+
+# on:
+#   schedule:
+#     - cron: '0 2 * * 4'
 
 jobs:
   build:
