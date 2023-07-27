@@ -58,7 +58,7 @@ def create_error_over_time_chart(df:pd.DataFrame) -> go.Figure:
         y=-0.25,
         x=0.35))
     fig.update_yaxes(tickformat=".0%")
-    fig.update_layout(title="Error over Time")
+    fig.update_layout(title="Mean Absolute Percentage Error over Time")
 
     
     return fig
